@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e681a4e4-5aa4-423e-bd6a-23f1f25c4e5a" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1XwAydDOxch0dpBhwwFXLuldsLq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RunManager" selected="JavaScript Debug.Exercise1.html">
+    <configuration name="Exercise1.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/webgl_start2/Exercise1.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="Exercise1.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/../webgl_ex_1.1/Exercise1.js" working-dir="$PROJECT_DIR$/../webgl_ex_1.1">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.Exercise1.html" />
+        <item itemvalue="Node.js.Exercise1.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e681a4e4-5aa4-423e-bd6a-23f1f25c4e5a" name="Default Changelist" comment="" />
+      <created>1581947038597</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1581947038597</updated>
+      <workItem from="1581947039939" duration="1510000" />
+      <workItem from="1582033604392" duration="17000" />
+      <workItem from="1582387661949" duration="1080000" />
+      <workItem from="1582532325120" duration="2276000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="304" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581947434082">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="304" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1581947434082" />
+    <state width="1659" height="280" key="GridCell.Tab.0.bottom" timestamp="1582019853591">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1659" height="280" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1582019853591" />
+    <state width="1659" height="280" key="GridCell.Tab.0.center" timestamp="1582019853590">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1659" height="280" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1582019853590" />
+    <state width="1659" height="280" key="GridCell.Tab.0.left" timestamp="1582019853589">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1659" height="280" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1582019853589" />
+    <state width="1659" height="280" key="GridCell.Tab.0.right" timestamp="1582019853591">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1659" height="280" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1582019853591" />
+    <state x="341" y="175" key="SettingsEditor" timestamp="1582033612574">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="341" y="175" key="SettingsEditor/0.23.1680.1027@0.23.1680.1027" timestamp="1582033612574" />
+  </component>
+</project>
