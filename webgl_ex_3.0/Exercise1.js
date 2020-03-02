@@ -127,6 +127,7 @@ function draw() {
     mat3.fromRotation(modelMat, globalAngle);
     mat3.scale(modelMat, modelMat, [200, 200]);
     gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
+
     // add drawing routines here
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 }

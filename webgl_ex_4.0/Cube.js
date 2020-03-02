@@ -41,7 +41,17 @@ function WireFrameCube(gl, color) {
         bufferEdges: defineEdges(gl),
         color: color,
         draw: function (gl, aVertexPositionId, aVertexColorId) {
-            //TODO
+
+            // Position übergeben
+            gl.vertexAttribPointer(aVertexPositionId, 3, gl.FLOAT, false, 0, 0);
+            gl.enableVertexAttribArray(aVertexPositionId);
+
+            // Farben übergeben
+            gl.vertexAttribPointer(aVertexColorId, 4, gl.FLOAT, false, 0, 0);
+            gl.enableVertexAttribArray(aVertexColorId);
+
+
+            gl.drawElements(gl.LINES, 6 /* Anzahl Indices */, gl.UNSIGNED_SHORT, 0);
         }
     }
 }
