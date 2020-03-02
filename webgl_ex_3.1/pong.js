@@ -9,7 +9,7 @@ window.onload = startup;
 
 // the gl object is saved globally
 var gl;
-var collisionP1 = false;
+
 
 // we keep all local parameters for the program in a single object with the name ctx (for context)
 var ctx = {
@@ -26,11 +26,15 @@ var ctx = {
 function startup() {
     "use strict";
     var canvas = document.getElementById("myCanvas");
+    const height = canvas.height;
+    const width = canvas.width;
     gl = createGLContext(canvas);
     initGL();
     draw();
     window.requestAnimationFrame(drawAnimated);
 }
+
+
 
 /**
  * InitGL should contain the functionality that needs to be executed only once
@@ -94,30 +98,65 @@ function setupBuffers() {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 }
 
+class Ball {
+    constructor() {
+        this.x = Math.floor(Math.random() * (200 - (-200)) ) + (-200);
+        this.y = Math.floor(Math.random() * (100 - (-100)) ) + (-100);
+        this.xSpeed = Math.floor(Math.random() * (5 - (-2)) ) + (-2);
+        this.ySpeed = this.xSpeed;
+        this.size = 10;
+    }
 
-var game = {
-    ball: {
-        posX: 200,
-        posY: -100,
-        velocityX: 1,
-        velocityY: 1,
-        size: 10
-    },
-    paddle1: {
-        y: 0,
-        width: 10,
-        height: 60,
-        velocity: 1,
-        lives: 3
-    },
-    paddle2: {
-        y: 0,
-        width: 10,
-        height: 60,
-        velocity: 1,
-        lives: 3
+    move() {
+        this.x = this.x + this.xSpeed;
+        this.y = this.y + this.ySpeed;
+    }
+
+    bounce() {
+        if (this.x >= 400 || this.x <= -400) {
+            this.xSpeed = this.xSpeed * -1;
+        }
+        if (this.y <= -300) {
+            paddle2.lives--;
+            this.ySpeed = this.ySpeed * -1;
+        }
+
+        if (this.y >= 300) {
+            paddle1.lives--;
+            this.ySpeed = this.ySpeed * -1;
+        }
+    }
+
+    paddleCollision() {
+        if ( (ball.y >= paddle1.y-30) &&
+            (ball.y <= paddle1.y+30) &&
+            (ball.x >= 370)) {
+            this.xSpeed = this.xSpeed * -1;
+        }
+
+        if ( (ball.y >= paddle2.y-30) &&
+            (ball.y <= paddle2.y+30) &&
+            (ball.x <= -370)) {
+            this.xSpeed = this.xSpeed * -1;
+        }
     }
 }
+
+class Paddle {
+    constructor(lives = 3) {
+        this.y =  0;
+        this.width = 10;
+        this.height = 60;
+        this.velocity = 20;
+    }
+
+}
+
+var ball = new Ball();
+var paddle1 = new Paddle();
+var paddle2 = new Paddle();
+var p1Lives = document.getElementById("p1Lives");
+var p2Lives = document.getElementById("p2Lives");
 
 /**
  * Draw the scene.
@@ -144,6 +183,9 @@ function draw() {
     mat3.fromScaling(projectionMat, [2.0 / gl.drawingBufferWidth, 2.0 / gl.drawingBufferHeight]);
     gl.uniformMatrix3fv(ctx.uProjectionMatId, false, projectionMat);
 
+    ball.bounce();
+    ball.move();
+    ball.paddleCollision();
     drawPaddles();
     drawLine();
     drawBall();
@@ -151,14 +193,14 @@ function draw() {
 
 function drawPaddles() {
     var modelMat = mat3.create();
-    mat3.fromTranslation(modelMat, [370, game.paddle1.y]);
-    mat3.scale(modelMat, modelMat, [game.paddle1.width, game.paddle1.height]);
+    mat3.fromTranslation(modelMat, [370, paddle1.y]);
+    mat3.scale(modelMat, modelMat, [paddle1.width, paddle1.height]);
     gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 
     var modelMat = mat3.create();
-    mat3.fromTranslation(modelMat, [-370, game.paddle2.y]);
-    mat3.scale(modelMat, modelMat, [game.paddle2.width, game.paddle2.height]);
+    mat3.fromTranslation(modelMat, [-370, paddle2.y]);
+    mat3.scale(modelMat, modelMat, [paddle2.width, paddle2.height]);
     gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 }
@@ -172,23 +214,9 @@ function drawLine() {
 
 function drawBall() {
     var modelMat = mat3.create();
-    mat3.fromTranslation(modelMat, [game.ball.posX, game.ball.posY]);
-    mat3.scale(modelMat, modelMat, [game.ball.size, game.ball.size]);
+    mat3.fromTranslation(modelMat, [ball.x, ball.y]);
+    mat3.scale(modelMat, modelMat, [ball.size, ball.size]);
     gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
-
-    if (game.ball.posX >= 370 && game.ball.posY >= game.paddle1.y-30 && game.ball.posY <= game.paddle1.y+30) {
-        collisionP1 = true;
-    }
-    if (game.ball.posY <= gl.drawingBufferHeight && game.ball.posY >= -200) {
-
-    }
-    if (collisionP1) {
-        game.ball.posX -= game.ball.velocityX;
-        game.ball.posY += game.ball.velocityY;
-    } else {
-        game.ball.posX += game.ball.velocityX;
-        game.ball.posY += game.ball.velocityY;
-    }
 
 
 
@@ -209,26 +237,29 @@ document.addEventListener('keydown', (event) => {
     // paddle 1
     if (keyName === 'ArrowUp') {
         //alert(`Key pressed ${keyName}`);
-        if (game.paddle1.y <= 50) {
-            game.paddle1.y += 20;
-        } else {
-            game.paddle1.y = 60;
+        if (paddle1.y <= 260) {
+            paddle1.y += paddle1.velocity;
         }
     }
     if (keyName === 'ArrowDown') {
-        //alert(`Key pressed ${keyName}`);
-        game.paddle1.y -= 20;
+        if (paddle1.y >= -260) {
+            paddle1.y -= paddle1.velocity;
+        }
     }
 
     // paddle 2
     if (keyName === 'w') {
-        //alert(`Key pressed ${keyName}`);
-        game.paddle2.y += 20;
+        if (paddle2.y <= 260) {
+            paddle2.y += paddle2.velocity;
+        }
     }
     if (keyName === 's') {
-        //alert(`Key pressed ${keyName}`);
-        game.paddle2.y -= 20;
+        if (paddle2.y >= -260) {
+            paddle2.y -= paddle2.velocity;
+        }
     }
 
 }, false);
+
+
 
