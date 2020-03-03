@@ -3,13 +3,15 @@
 //
 // WebGL Exercises
 
-// Register function to call after document has loaded
-window.onload = startup;
+
 
 // the gl object is saved globally
 var gl;
 var globalAngle = 0;
-var wiredCube;
+var wireFrameCube;
+
+// Register function to call after document has loaded
+window.onload = startup;
 
 
 // we keep all local parameters for the program in a single object with the name ctx (for context)
@@ -29,9 +31,9 @@ function startup() {
     var canvas = document.getElementById("myCanvas");
     gl = createGLContext(canvas);
     initGL();
-    wiredCube = new WireFrameCube(gl,[1.0, 1.0, 1.0, 0.5]);
+    wireFrameCube = new WireFrameCube(gl,[1.0, 1.0, 1.0, 0.5]);
     draw();
-    window.requestAnimationFrame(drawAnimated);
+    //window.requestAnimationFrame(drawAnimated);
 }
 
 /**
@@ -91,17 +93,23 @@ function draw() {
 
     // Set up the projection
     var projectionMat = mat4.create();
-    mat4.ortho(projectionMat, -400, 400, -300, 300, 5, 100);
+    //mat4.ortho(projectionMat, -400, 400, -300, 300, 5, 100);
+
+    mat4.rotate(projectionMat,  // destination matrix
+        projectionMat,  // matrix to rotate
+        2,     // amount to rotate in radians
+        [0, 0, 1]);
+
     gl.uniformMatrix4fv(ctx.uProjectionMatId, false, projectionMat);
 
-    wiredCube.draw(gl, ctx.aVertexPositionId, ctx.aColorId);
+    wireFrameCube.draw(gl, ctx.aVertexPositionId, ctx.aColorId);
 }
 
 function drawAnimated() {
     if (globalAngle >= 2 * Math.PI) {
         globalAngle = 0;
     } else {
-        globalAngle +=  0.1;
+        globalAngle += 0.1;
     }
 
     console.log(globalAngle);
