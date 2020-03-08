@@ -1,9 +1,15 @@
+
 /*
 * Computer Graphics
 *
 * PONG by Simon Müller
 */
 
+// Test Test
+// Computer Graphics
+//
+// WebGL Exercises
+//
 
 // Register function to call after document has loaded
 window.onload = startup;
