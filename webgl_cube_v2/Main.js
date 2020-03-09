@@ -13,7 +13,6 @@ var wireFrameCube;
 // Register function to call after document has loaded
 window.onload = startup;
 
-
 // we keep all local parameters for the program in a single object with the name ctx (for context)
 var ctx = {
     shaderProgram: -1,
@@ -31,9 +30,9 @@ function startup() {
     var canvas = document.getElementById("myCanvas");
     gl = createGLContext(canvas);
     initGL();
-    wireFrameCube = new WireFrameCube(gl,[1.0, 1.0, 1.0, 0.5]);
+    wireFrameCube = new WireFrameCube(gl);
     draw();
-    //window.requestAnimationFrame(drawAnimated);
+    window.requestAnimationFrame(drawAnimated);
 }
 
 /**
@@ -43,8 +42,7 @@ function initGL() {
     "use strict";
     ctx.shaderProgram = loadAndCompileShaders(gl, 'VertexShader.glsl', 'FragmentShader.glsl');
     setupAttributesAndUniforms();
-    setupBuffers();
-    gl.clearColor(0.8, 0.8, 0.8, 1);
+    gl.clearColor(0.1, 0.1, 0.1, 1);
 }
 
 /**
@@ -58,25 +56,6 @@ function setupAttributesAndUniforms() {
     ctx.uModelMatId = gl.getUniformLocation(ctx.shaderProgram, "uModelMat");
 }
 
-// we keep all the parameters for drawing aspecific object together
-var rectangleObject = {
-    colorBuffer: -1
-};
-
-function setupBuffers() {
-
-    rectangleObject.colorBuffer = gl.createBuffer();
-    var colors = [
-        1, 0, 0.4, 1,
-        0.1, 0.2, 0.3, 1,
-        0.3, 0.4, 0.5, 1,
-        0.3, 1, 0.1, 1
-    ];
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.colorBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-}
-
 /**
  * Draw the scene.
  */
@@ -85,21 +64,20 @@ function draw() {
     console.log("Drawing");
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    // Set up the camera position
+    // Set up the camera position | view * model = modelView
     var modelViewMat = mat4.create();
-    mat4.lookAt(modelViewMat, [0, 0, 0, 0], ctx.aVertexPositionId, [0, 1, 0, 1]);
+    mat4.lookAt(modelViewMat, [0, -5, 0], [0, 0, 0], [0, 0, 1]);
+    mat4.rotate(modelViewMat,  // destination matrix
+        modelViewMat,  // matrix to rotate
+        globalAngle,     // amount to rotate in radians
+        [0.2, 0.6, 1]);
     gl.uniformMatrix4fv(ctx.uModelMatId, false, modelViewMat);
 
 
-    // Set up the projection
+    // Set up the projection of the object
     var projectionMat = mat4.create();
-    //mat4.ortho(projectionMat, -400, 400, -300, 300, 5, 100);
-
-    mat4.rotate(projectionMat,  // destination matrix
-        projectionMat,  // matrix to rotate
-        2,     // amount to rotate in radians
-        [0, 0, 1]);
-
+    //mat4.ortho(projectionMat, -1, 1, -1, 1, 0.1, 100);
+    mat4.perspective(projectionMat, 45 * Math.PI / 180, 800 / 600, 0.1, 100);
     gl.uniformMatrix4fv(ctx.uProjectionMatId, false, projectionMat);
 
     wireFrameCube.draw(gl, ctx.aVertexPositionId, ctx.aColorId);
@@ -109,7 +87,7 @@ function drawAnimated() {
     if (globalAngle >= 2 * Math.PI) {
         globalAngle = 0;
     } else {
-        globalAngle += 0.1;
+        globalAngle += 0.05;
     }
 
     console.log(globalAngle);

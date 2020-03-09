@@ -8,18 +8,18 @@
  * @constructor
  */
 
-function WireFrameCube(gl, color) {
+function WireFrameCube(gl) {
     function defineVertices(gl) { // define the vertices of the cube
 
         var vertices = [
-            0, 0, 0,
-            1, 0, 0,
-            1, 1, 0,
-            0, 1, 0,
-            0, 1, 1,
-            0, 0, 1,
-            1, 0, 1,
-            1, 1, 1
+            -0.5, -0.5, -0.5,    // Modellkoordinaten
+            0.5, -0.5, -0.5,
+            0.5, 0.5, -0.5,
+            -0.5, 0.5, -0.5,
+            -0.5, 0.5, 0.5,
+            -0.5, -0.5, 0.5,
+            0.5, -0.5, 0.5,
+            0.5, 0.5, 0.5
         ];
         var vertexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
@@ -50,22 +50,44 @@ function WireFrameCube(gl, color) {
         return edgeBuffer;
     }
 
+    function defineColors(gl) {
+
+        var colors = [
+            1, 0, 1, 1,
+            0.1, 1, 0.3, 1,
+            0.3, 0.4, 0.5, 1,
+            0.3, 1, 1, 1,
+            1, 0, 0.4, 1,
+            0.1, 0.2, 0.3, 1,
+            1, 0.4, 0.5, 1,
+            0.3, 1, 0.5, 1
+        ];
+
+        var colorBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+        return colorBuffer;
+    }
+
     return {
         bufferVertices: defineVertices(gl),
         bufferEdges: defineEdges(gl),
-        color: color,
-        draw: function(gl, aVertexPositionId, aVertexColorId) {
+        colorBuffer: defineColors(gl),
+        draw: function (gl, aVertexPositionId, aVertexColorId) {
 
             // Position übergeben
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.bufferVertices);
             gl.vertexAttribPointer(aVertexPositionId, 3, gl.FLOAT, false, 0, 0);
             gl.enableVertexAttribArray(aVertexPositionId);
 
             // Farben übergeben
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
             gl.vertexAttribPointer(aVertexColorId, 4, gl.FLOAT, false, 0, 0);
             gl.enableVertexAttribArray(aVertexColorId);
 
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.bufferEdges);
 
-            gl.drawElements(gl.LINES, 6 /* Anzahl Indices */, gl.UNSIGNED_SHORT, 0);
+            gl.drawElements(gl.LINES, 24 /* Anzahl Indices */, gl.UNSIGNED_SHORT, 0);
         }
     }
 }
