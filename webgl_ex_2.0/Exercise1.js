@@ -55,7 +55,6 @@ function initGL() {
  * @param image the loaded image
  * @param textureObject WebGL Texture Object
  */
-
 function initTexture(image, textureObject) {
     // create a new texture
     gl.bindTexture(gl.TEXTURE_2D, textureObject);
