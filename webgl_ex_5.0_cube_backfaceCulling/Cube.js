@@ -82,9 +82,9 @@ function WireFrameCube(gl) {
         var faceColors = [
             [1.0, 1.0, 1.0, 1.0],    // Front face: white
             [1.0, 0.0, 0.0, 1.0],    // Back face: red
-            [0.0, 1.0, 0.0, 1.0],    // Top face: green
+            [1.0, 0.5, 0.0, 1.0],    // Top face:
             [0.0, 0.0, 1.0, 1.0],    // Bottom face: blue
-            [1.0, 1.0, 0.0, 1.0],    // Right face: yellow
+            [0.0, 1.0, 0.7, 1.0],    // Right face:
             [1.0, 0.0, 1.0, 1.0],    // Left face: purple
         ];
 
