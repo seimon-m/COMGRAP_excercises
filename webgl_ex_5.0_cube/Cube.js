@@ -57,12 +57,18 @@ function WireFrameCube(gl) {
     function defineEdges(gl) { // define the edges for the cube , there are 12 edges in a cube
 
         var vertexIndices = [
-            0, 1, 2, 0, 2, 3,    // front
-            4, 5, 6, 4, 6, 7,    // back
-            8, 9, 10, 8, 10, 11,   // top
-            12, 13, 14, 12, 14, 15,   // bottom
-            16, 17, 18, 16, 18, 19,   // right
-            20, 21, 22, 20, 22, 23,   // left
+            0, 1, 2,
+            2, 3, 0, // front
+            4, 5, 6,
+            6, 7, 4, // right
+            8, 9, 10,
+            10, 11, 8, // top
+            12, 13, 14,
+            14, 15, 12, // back
+            16, 17, 18,
+            18, 19, 16, // left
+            20, 21, 22,
+            22, 23, 20 // bottom
         ];
 
         var edgeBuffer = gl.createBuffer();
@@ -113,6 +119,10 @@ function WireFrameCube(gl) {
             gl.enableVertexAttribArray(aVertexColorId);
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.bufferEdges);
+
+            gl.frontFace(gl.CCW); // defines how the front face is drawn
+            gl.cullFace(gl.BACK); // defines which face should be
+            gl.enable(gl.CULL_FACE); // enables culling
 
             gl.drawElements(gl.TRIANGLES, 36 /* Anzahl Indices */, gl.UNSIGNED_SHORT, 0);
         }

@@ -4,7 +4,6 @@
 // WebGL Exercises
 
 
-
 // the gl object is saved globally
 var gl;
 var globalAngle = 0;
@@ -87,7 +86,7 @@ function drawAnimated() {
     if (globalAngle >= 2 * Math.PI) {
         globalAngle = 0;
     } else {
-        globalAngle += 0.05;
+        globalAngle += 0.03;
     }
 
     console.log(globalAngle);
