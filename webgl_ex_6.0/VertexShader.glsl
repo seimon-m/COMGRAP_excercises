@@ -6,6 +6,7 @@ attribute vec2 aVertexTextureCoord;
 uniform mat4 uModelViewMatrix;
 uniform mat4 uProjectionMatrix;
 uniform mat3 uNormalMatrix;
+uniform mat4 uWorldMatrix;
 
 varying vec3 vColor;
 varying vec2 vTextureCoord;

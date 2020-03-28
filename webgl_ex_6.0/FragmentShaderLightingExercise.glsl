@@ -24,7 +24,7 @@ void main() {
         baseColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t)).rgb;
     }
 
-    if (uEnableLighting) {
+    if (!uEnableLighting) {
         // calculate light direction as seen from the vertex position
         vec3 lightDirectionEye = normalize(uLightPosition - vVertexPositionEye3);
         vec3 normal = normalize(vNormalEye);
@@ -39,10 +39,11 @@ void main() {
         // specular lighting
         vec3 specularColor = vec3(0, 0, 0);
         if (diffuseFactor > 0.0) {
-            vec3 reflectionDir = normalize(reflect(lightDirectionEye, normal));
+            vec3 reflectionDir = normalize(reflect(-lightDirectionEye, normal));
             vec3 eyeDir = normalize(-vVertexPositionEye3);
             float cosPhi = pow(clamp(dot(reflectionDir, eyeDir), 0.0, 1.0), shininess);
-            specularColor = cosPhi * specularColor + uLightColor * cosPhi;
+            //specularColor = cosPhi * specularMaterialColor + uLightColor * cosPhi;
+            specularColor = cosPhi * specularMaterialColor * uLightColor;
         }
 
         vec3 color = ambientColor + diffuseColor + specularColor;
